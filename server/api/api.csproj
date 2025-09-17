@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" Version="*"/>
+    <PackageReference Include="NSwag.CodeGeneration.TypeScript" Version="*"/>
     <ProjectReference Include="..\service\service.csproj" />
   </ItemGroup>
 
