@@ -6,35 +6,35 @@ namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthorController(IAuthorService service) : ControllerBase
+public class GenreController(IGenreService service) : ControllerBase
 {
     [HttpGet]
-    [Route("/authors")]
-    public async Task<List<AuthorDto>> All()
+    [Route("/genres")]
+    public async Task<List<GenreDto>> All()
     {
         return await service.All();
     }
-
+    
     [HttpGet]
     [Route("{id}")]
-    public async Task<AuthorDto> Get(int id)
+    public async Task<GenreDto> Get(string id)
     {
         return await service.Get(id);
     }
 
     [HttpPost]
-    public async Task<AuthorDto> Create(AuthorDto author)
+    public async Task<GenreDto> Create(GenreDto genre)
     {
-        return await service.Create(author);
+        return await service.Create(genre);
     }
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<AuthorDto> Update(AuthorDto author)
+    public async Task<GenreDto> Update(GenreDto genre)
     {
-        return await service.Update(author);
+        return await service.Update(genre);
     }
-    
+
     [HttpDelete]
     [Route("{id}")]
     public async Task<bool> Delete(string id)
