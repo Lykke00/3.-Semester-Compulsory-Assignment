@@ -11,7 +11,7 @@ public class AuthorService(MyDbContext context) : IAuthorService
         return context.Authors.Select(author => new AuthorDto(author)).ToListAsync();
     }
 
-    public async Task<AuthorDto> Get(int id)
+    public async Task<AuthorDto> Get(string id)
     {
         var author = await context.Authors.FindAsync(id);
         if (author == null)
