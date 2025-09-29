@@ -17,6 +17,8 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import useBooks from "@/hooks/useBooks";
+import type { BookDto, CreateBookRequest } from "@/generated-client";
 
 interface ModalBookNewProps {
   open: boolean;
@@ -32,6 +34,8 @@ const FormSchema = z.object({
 });
 
 export default function ModalBookNew({ open, onOpenChange }: ModalBookNewProps) {
+    const useBooksApi = useBooks();
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -41,18 +45,19 @@ export default function ModalBookNew({ open, onOpenChange }: ModalBookNewProps) 
     },
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log("submitted:", data);
-    toast("Book added!", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-    onOpenChange(false);
-    form.reset();
+const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const bookDto: CreateBookRequest = {
+    title: data.title,
+    pages: data.pages,  
+    genreId: 1
   };
+
+  await useBooksApi.createBook(bookDto);
+
+  onOpenChange(false);
+  form.reset();
+};
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

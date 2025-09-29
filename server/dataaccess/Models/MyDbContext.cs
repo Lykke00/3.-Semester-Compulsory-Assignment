@@ -25,7 +25,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("author", "library");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
             entity.Property(e => e.Createdat).HasColumnName("createdat");
             entity.Property(e => e.Name).HasColumnName("name");
 
@@ -42,8 +44,8 @@ public partial class MyDbContext : DbContext
                     {
                         j.HasKey("Authorid", "Bookid").HasName("authorbookjunction_pkey");
                         j.ToTable("authorbookjunction", "library");
-                        j.IndexerProperty<string>("Authorid").HasColumnName("authorid");
-                        j.IndexerProperty<string>("Bookid").HasColumnName("bookid");
+                        j.IndexerProperty<Guid>("Authorid").HasColumnName("authorid");
+                        j.IndexerProperty<Guid>("Bookid").HasColumnName("bookid");
                     });
         });
 
@@ -53,7 +55,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("book", "library");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
             entity.Property(e => e.Createdat).HasColumnName("createdat");
             entity.Property(e => e.Genreid).HasColumnName("genreid");
             entity.Property(e => e.Pages).HasColumnName("pages");
@@ -71,7 +75,9 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("genre", "library");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("gen_random_uuid()")
+                .HasColumnName("id");
             entity.Property(e => e.Createdat).HasColumnName("createdat");
             entity.Property(e => e.Name).HasColumnName("name");
         });

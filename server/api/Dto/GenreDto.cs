@@ -5,7 +5,7 @@ namespace api.Dto;
 
 public class GenreDto
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     
     [Required(ErrorMessage = "Name is required")]
     [Length(2, 75)]

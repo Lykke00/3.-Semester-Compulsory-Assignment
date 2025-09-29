@@ -279,14 +279,14 @@ export class BookClient {
         return Promise.resolve<BookDto>(null as any);
     }
 
-    update(id: string, author: BookDto): Promise<BookDto> {
+    update(id: string, book: BookDto): Promise<BookDto> {
         let url_ = this.baseUrl + "/api/Book/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(author);
+        const content_ = JSON.stringify(book);
 
         let options_: RequestInit = {
             body: content_,
@@ -355,11 +355,11 @@ export class BookClient {
         return Promise.resolve<boolean>(null as any);
     }
 
-    create(author: BookDto): Promise<BookDto> {
+    create(book: CreateBookRequest): Promise<BookDto> {
         let url_ = this.baseUrl + "/api/Book";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(author);
+        const content_ = JSON.stringify(book);
 
         let options_: RequestInit = {
             body: content_,
@@ -686,6 +686,12 @@ export interface GenreDto {
     id: string;
     name: string;
     createdAt: string;
+}
+
+export interface CreateBookRequest {
+    title: string;
+    pages: number;
+    genreId: number | undefined;
 }
 
 export class ApiException extends Error {

@@ -6,7 +6,7 @@ namespace api.Dto;
 
 public class BookDto
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     
     [Required(ErrorMessage = "Title is required")]
     [Length(2, 160)]

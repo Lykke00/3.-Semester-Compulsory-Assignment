@@ -5,7 +5,7 @@ namespace dataaccess.Models;
 
 public partial class Book
 {
-    public string Id { get; set; } = null!;
+    public Guid Id { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -13,7 +13,7 @@ public partial class Book
 
     public DateTime? Createdat { get; set; }
 
-    public string? Genreid { get; set; }
+    public Guid? Genreid { get; set; }
 
     public virtual Genre? Genre { get; set; }
 

@@ -561,7 +561,8 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "format": "guid"
           },
           "name": {
             "type": "string",
@@ -582,7 +583,8 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "format": "guid"
           },
           "title": {
             "type": "string",
@@ -616,7 +618,8 @@
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "format": "guid"
           },
           "name": {
             "type": "string",
