@@ -61,10 +61,10 @@ const onSubmit = async (data: z.infer<typeof FormSchema>) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-zinc-800">
         <DialogHeader>
-          <DialogTitle>Add new book</DialogTitle>
-          <DialogDescription>Create a new book</DialogDescription>
+          <DialogTitle className="text-gray-100">Add new book</DialogTitle>
+          <DialogDescription className="text-gray-200">Create a new book</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -75,9 +75,9 @@ const onSubmit = async (data: z.infer<typeof FormSchema>) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel className="text-gray-200">Title</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Book title" />
+                    <Input className="text-gray-200 border-zinc-800" {...field} placeholder="Book title" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,9 +90,9 @@ const onSubmit = async (data: z.infer<typeof FormSchema>) => {
               name="pages"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Pages</FormLabel>
+                  <FormLabel className="text-gray-200">Pages</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input className="text-gray-200 border-zinc-800" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -111,10 +111,10 @@ const onSubmit = async (data: z.infer<typeof FormSchema>) => {
                       onValueChange={field.onChange}
                       value={field.value}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full border-zinc-800 text-gray-200">
                         <SelectValue placeholder="Select a genre" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-zinc-900 border-zinc-800 text-gray-200">
                         <SelectItem value="Fantasy">Fantasy</SelectItem>
                         <SelectItem value="Sci-Fi">Sci-Fi</SelectItem>
                         <SelectItem value="Romance">Romance</SelectItem>

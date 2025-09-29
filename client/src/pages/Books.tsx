@@ -27,7 +27,7 @@ export default function BooksPage() {
                     <PlusIcon />
                 </Button>
             </div>
-            <Separator className="" orientation="horizontal" />
+            <Separator className="bg-zinc-800" orientation="horizontal" />
             <div className="grid grid-cols-3 gap-4">
                 {useBooksApi.books.map((book, index) => (
                     <BookCard key={index} book={book} />

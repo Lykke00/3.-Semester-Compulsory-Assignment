@@ -17,7 +17,6 @@ export default function useBooks() {
             setBooks(result);
         }
         catch (e: any) {
-            console.log("wops")
             customCatch(e);
         }
     }
