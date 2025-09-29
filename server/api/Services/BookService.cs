@@ -31,7 +31,7 @@ public class BookService(MyDbContext context) : IBookService
         {
             Title = book.Title,
             Pages = book.Pages,
-            Createdat = DateTime.Now
+            Createdat = DateTime.UtcNow
         };
         
         await context.Books.AddAsync(createdBook);
