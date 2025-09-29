@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,16 +24,16 @@ public class BookController(IBookService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<BookDto> Create(BookDto author)
+    public async Task<BookDto> Create(CreateBookRequest book)
     {
-        return await service.Create(author);
+        return await service.Create(book);
     }
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<BookDto> Update(BookDto author)
+    public async Task<BookDto> Update(BookDto book)
     {
-        return await service.Update(author);
+        return await service.Update(book);
     }
     
     [HttpDelete]

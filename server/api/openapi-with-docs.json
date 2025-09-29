@@ -232,7 +232,7 @@
           }
         ],
         "requestBody": {
-          "x-name": "author",
+          "x-name": "book",
           "content": {
             "application/json": {
               "schema": {
@@ -293,11 +293,11 @@
         ],
         "operationId": "Book_Create",
         "requestBody": {
-          "x-name": "author",
+          "x-name": "book",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookDto"
+                "$ref": "#/components/schemas/CreateBookRequest"
               }
             }
           },
@@ -625,6 +625,31 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "CreateBookRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "pages"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647.0,
+            "minimum": 1.0
+          },
+          "genreId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       }

@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using dataaccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,13 +25,13 @@ public class BookService(MyDbContext context) : IBookService
         return new BookDto(book);
     }
 
-    public async Task<BookDto> Create(BookDto book)
+    public async Task<BookDto> Create(CreateBookRequest book)
     {
         var createdBook = new Book
         {
             Title = book.Title,
             Pages = book.Pages,
-            Createdat = book.CreatedAt
+            Createdat = DateTime.Now
         };
         
         await context.Books.AddAsync(createdBook);
