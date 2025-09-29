@@ -25,6 +25,9 @@ public class Program
         services.AddCors();
         
         services.AddScoped<IAuthorService, AuthorService>();
+        services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IGenreService, GenreService>();
+
     }
 
     public static void Main()

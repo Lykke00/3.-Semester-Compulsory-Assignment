@@ -4,11 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
-public class BookService(MyDbContext context)
+public class BookService(MyDbContext context) : IBookService
 {
     public Task<List<BookDto>> All()
     {
-        return context.Books.Select(book => new BookDto(book)).ToListAsync();
+        return context.Books
+            .Include(b => b.Genre)
+            .Select(book => new BookDto(book))
+            .ToListAsync();
+        
     }
     
     public async Task<BookDto> Get(string id)

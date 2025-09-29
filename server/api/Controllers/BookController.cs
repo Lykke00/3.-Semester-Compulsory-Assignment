@@ -9,7 +9,7 @@ namespace api.Controllers;
 public class BookController(IBookService service) : ControllerBase
 {
     [HttpGet]
-    [Route("/authors")]
+    [Route("/books")]
     public async Task<List<BookDto>> All()
     {
         return await service.All();
