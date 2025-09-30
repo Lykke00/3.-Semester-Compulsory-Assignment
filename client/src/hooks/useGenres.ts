@@ -50,11 +50,23 @@ export default function useGenres() {
         }
     }
 
+    async function deleteGenre(id: string) {
+        try {
+            const result = await genreApi.delete(id);
+            const filtered = genres.filter(b => b.id !== id);
+            setGenres(filtered);
+            toast.success("Genre deleted successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+        }
+    }
 
     return {
         getAllGenres,
         createGenre,
-        editGenre, 
+        editGenre,
+        deleteGenre,
         genres,
     }
 }

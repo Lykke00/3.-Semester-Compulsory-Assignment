@@ -34,7 +34,7 @@ export default function GenreCard({ genre }: GenreCardProps) {
                                     Update
                                     <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => console.log("")}>
+                                <DropdownMenuItem onClick={() => useGenresApi.deleteGenre(genre.id)}>
                                     Delete
                                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                                 </DropdownMenuItem>
