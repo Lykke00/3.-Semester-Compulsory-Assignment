@@ -1,5 +1,5 @@
 import { AllBooksAtom } from "@/atoms/atoms";
-import { BookClient, type CreateBookRequest, type GenreDto } from "@/generated-client";
+import { BookClient, type CreateBookRequest, type EditBookRequest, type GenreDto } from "@/generated-client";
 import { finalUrl } from "@/utils/client";
 import customCatch from "@/utils/customCatch";
 import { useAtom } from "jotai";
@@ -34,9 +34,49 @@ export default function useBooks() {
         }
     }
 
+        async function editBook(dto: EditBookRequest) {
+        try {
+            const result = await bookApi.update(dto.id, dto)
+            const index = books.findIndex(b => b.id === result.id);
+            if (index > -1) {
+                const duplicate = [...books];
+                duplicate[index] = result;
+                setBooks(duplicate);
+            }
+
+            /*
+            result.authorsIds.forEach(authorId => {
+                const authorIndex = authors.findIndex(a => a.id === authorId);
+                if (authorIndex > -1) {
+                    const authorDuplicate = [...authors];
+                    if (!authorDuplicate[authorIndex].bookIds.includes(result.id!)) {
+                        authorDuplicate[authorIndex].bookIds.push(result.id!);
+                        setAuthors(authorDuplicate);
+                    }
+                }
+            })
+            const genre = genres.findIndex(g => g.id == result.genreId)
+            if (genre > -1) {
+                const genreDuplicate = [...genres];
+                if (!genreDuplicate[genre].books.includes(result.id!)) {
+                    genreDuplicate[genre].books.push(result.id!);
+                    setGenres(genreDuplicate);
+                }
+            }*/
+            toast.success("Book updated successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+            
+        }
+
+    }
+
+
     return {
         getAllBooks,
         createBook,
+        editBook,
         books
     }
 }

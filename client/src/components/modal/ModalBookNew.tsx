@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "sonner";
 import {
   Dialog,
   DialogClose,
@@ -18,11 +17,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { BookDto, CreateBookRequest } from "@/generated-client";
+import type { BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
 
 interface ModalBookNewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  book?: BookDto
 }
 
 const FormSchema = z.object({
@@ -33,38 +33,52 @@ const FormSchema = z.object({
   genre: z.string().min(1, "Please select a genre"),
 });
 
-export default function ModalBookNew({ open, onOpenChange }: ModalBookNewProps) {
+export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
     const useBooksApi = useBooks();
 
-  const form = useForm({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      title: "",
-      pages: 1,
-      genre: "",
-    },
-  });
+    const form = useForm({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            title: book?.title ? book.title : '',
+            pages: book?.pages ? book.pages : 1,
+            genre: "",
+        },
+    });
 
-const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-  const bookDto: CreateBookRequest = {
-    title: data.title,
-    pages: data.pages,  
-    genreId: 1
-  };
+    const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+        const edit = book !== undefined;
 
-  await useBooksApi.createBook(bookDto);
+        if (edit) {
+            const editedBook: EditBookRequest = {
+                id: book.id,
+                title: data.title,
+                pages: data.pages,
+                genreId: 1
+            }
 
-  onOpenChange(false);
-  form.reset();
-};
+            await useBooksApi.editBook(editedBook);
+        } else {
+        const bookDto: CreateBookRequest = {
+            title: data.title,
+            pages: data.pages,  
+            genreId: 1
+        };
+
+        await useBooksApi.createBook(bookDto);
+
+        }
+
+        onOpenChange(false);
+        form.reset();
+    };
 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="text-gray-100">Add new book</DialogTitle>
-          <DialogDescription className="text-gray-200">Create a new book</DialogDescription>
+          <DialogTitle className="text-gray-100">{book ? 'Edit book' : 'Add new book'}</DialogTitle>
+          <DialogDescription className="text-gray-200">{book ? 'Edit an existing book' : 'Create a new book'}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -105,7 +119,7 @@ const onSubmit = async (data: z.infer<typeof FormSchema>) => {
               name="genre"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Genre</FormLabel>
+                  <FormLabel className="text-gray-200">Genre</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}

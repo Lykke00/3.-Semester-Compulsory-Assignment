@@ -279,7 +279,7 @@ export class BookClient {
         return Promise.resolve<BookDto>(null as any);
     }
 
-    update(id: string, book: BookDto): Promise<BookDto> {
+    update(id: string, book: EditBookRequest): Promise<BookDto> {
         let url_ = this.baseUrl + "/api/Book/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -689,6 +689,13 @@ export interface GenreDto {
 }
 
 export interface CreateBookRequest {
+    title: string;
+    pages: number;
+    genreId: number | undefined;
+}
+
+export interface EditBookRequest {
+    id: string;
     title: string;
     pages: number;
     genreId: number | undefined;
