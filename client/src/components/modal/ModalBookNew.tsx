@@ -19,7 +19,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import useBooks from "@/hooks/useBooks";
 import type { BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { MultiSelect } from "../ui/multi-select";
 
 interface ModalBookNewProps {
   open: boolean;
@@ -35,7 +36,16 @@ const FormSchema = z.object({
   genre: z.string().min(1, "Please select a genre"),
 });
 
+const options = [
+	{ value: "next", label: "Next.js" },
+	{ value: "react", label: "React" },
+	{ value: "typescript", label: "TypeScript" },
+];
+
+
 export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
+    const [selected, setSelected] = useState<string[]>([]);
+
     const useBooksApi = useBooks();
     const useGenresApi = useGenres();
 
@@ -140,6 +150,29 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                         ))}
                       </SelectContent>
                     </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Authors */}
+            <FormField
+              control={form.control}
+              name="genre"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-200">Authors</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                        options={options}
+                        onValueChange={setSelected}
+                        responsive={true}
+                        minWidth="200px"
+                        maxWidth="400px"
+                        placeholder="Search..."
+                    />
+
                   </FormControl>
                   <FormMessage />
                 </FormItem>

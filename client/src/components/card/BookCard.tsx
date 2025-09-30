@@ -43,6 +43,12 @@ export default function BookCard({ book }: BookCardProps) {
                     </DropdownMenu>
             </CardAction>
         </CardHeader>
+        <CardContent className="flex flex-col">
+            <p className="text-gray-200">Authors</p>
+            {book.authors?.map((author, index) => (
+                <p key={index} className="text-sm text-gray-400">{author.name}</p>
+            ))}
+        </CardContent>
         <CardFooter className="text-xs text-gray-400">
             <p>{book.pages} pages</p>
         </CardFooter>

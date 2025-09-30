@@ -45,6 +45,12 @@ export default function AuthorCard({ author }: AuthorCardProps) {
                     </DropdownMenu>
             </CardAction>
         </CardHeader>
+        <CardContent className="flex flex-col">
+            <p className="text-gray-200">Books</p>
+            {author.books?.map((book, index) => (
+                <p key={index} className="text-sm text-gray-400">{book.title}</p>
+            ))}
+        </CardContent>
         <CardFooter className="text-xs text-gray-400">
             <p>{new Date(author.createdAt).toLocaleString()}</p>
         </CardFooter>
