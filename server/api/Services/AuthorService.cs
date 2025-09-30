@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using dataaccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ public class AuthorService(MyDbContext context) : IAuthorService
         return context.Authors.Select(author => new AuthorDto(author)).ToListAsync();
     }
 
-    public async Task<AuthorDto> Get(string id)
+    public async Task<AuthorDto> Get(Guid id)
     {
         var author = await context.Authors.FindAsync(id);
         if (author == null)
@@ -20,12 +21,12 @@ public class AuthorService(MyDbContext context) : IAuthorService
         return new AuthorDto(author);
     }
 
-    public async Task<AuthorDto> Create(AuthorDto author)
+    public async Task<AuthorDto> Create(CreateAuthorRequest author)
     {
         var createdAuthor = new Author
         {
             Name = author.Name,
-            Createdat = author.CreatedAt
+            Createdat = DateTime.UtcNow
         };
         
         await context.Authors.AddAsync(createdAuthor);
@@ -34,7 +35,7 @@ public class AuthorService(MyDbContext context) : IAuthorService
         return new AuthorDto(createdAuthor);
     }
 
-    public async Task<AuthorDto> Update(AuthorDto author)
+    public async Task<AuthorDto> Update(EditAuthorRequest author)
     {
         var updatedAuthor = await context.Authors.FindAsync(author.Id);
         if (updatedAuthor == null)
@@ -46,7 +47,7 @@ public class AuthorService(MyDbContext context) : IAuthorService
         return new AuthorDto(updatedAuthor);
     }
 
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         var author = await context.Authors.FindAsync(id);
         if (author == null)

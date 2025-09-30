@@ -17,7 +17,7 @@ public class AuthorController(IAuthorService service) : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<AuthorDto> Get(string id)
+    public async Task<AuthorDto> Get(Guid id)
     {
         return await service.Get(id);
     }
