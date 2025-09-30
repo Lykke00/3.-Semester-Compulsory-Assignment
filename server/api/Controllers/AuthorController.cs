@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,21 +24,21 @@ public class AuthorController(IAuthorService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<AuthorDto> Create(AuthorDto author)
+    public async Task<AuthorDto> Create(CreateAuthorRequest author)
     {
         return await service.Create(author);
     }
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<AuthorDto> Update(AuthorDto author)
+    public async Task<AuthorDto> Update(EditAuthorRequest author)
     {
         return await service.Update(author);
     }
     
     [HttpDelete]
     [Route("{id}")]
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         return await service.Delete(id);
     }
