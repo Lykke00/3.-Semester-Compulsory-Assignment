@@ -17,10 +17,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
+import type { AuthorDto, BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect, useState } from "react";
 import { MultiSelect } from "../ui/multi-select";
+import useAuthors from "@/hooks/useAuthors";
 
 interface ModalBookNewProps {
   open: boolean;
@@ -45,13 +46,29 @@ const options = [
 
 export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
     const [selected, setSelected] = useState<string[]>([]);
+    const [allAuthors, setAllAuthors] = useState<AuthorDto[]>([]);
 
     const useBooksApi = useBooks();
     const useGenresApi = useGenres();
+    const useAuthorsApi = useAuthors();
 
     useEffect(() => {
         useGenresApi.getAllGenres();
     }, [])
+
+    useEffect(() => {
+    const fetchAuthors = async () => {
+        await useAuthorsApi.getAllAuthors();
+        setAllAuthors(useAuthorsApi.authors);
+
+        if (book?.authors) {
+            setSelected(book.authors.map(a => a.id));
+        }
+    };
+
+    if (open) fetchAuthors();
+}, [book]);
+
 
     const form = useForm({
         resolver: zodResolver(FormSchema),
@@ -165,7 +182,7 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                   <FormLabel className="text-gray-200">Authors</FormLabel>
                   <FormControl>
                     <MultiSelect
-                        options={options}
+                        options={allAuthors.map(a => ({ value: a.id, label: a.name }))}
                         onValueChange={setSelected}
                         responsive={true}
                         minWidth="200px"
