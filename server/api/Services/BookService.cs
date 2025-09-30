@@ -54,7 +54,7 @@ public class BookService(MyDbContext context) : IBookService
         return new BookDto(updatedBook);
     }
 
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         var book = await context.Books.FindAsync(id);
         if (book == null)

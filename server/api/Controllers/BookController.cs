@@ -38,7 +38,7 @@ public class BookController(IBookService service) : ControllerBase
     
     [HttpDelete]
     [Route("{id}")]
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         return await service.Delete(id);
     }
