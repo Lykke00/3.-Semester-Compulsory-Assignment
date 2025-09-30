@@ -630,7 +630,7 @@ export class GenreClient {
         return Promise.resolve<boolean>(null as any);
     }
 
-    create(genre: GenreDto): Promise<GenreDto> {
+    create(genre: CreateGenreRequest): Promise<GenreDto> {
         let url_ = this.baseUrl + "/api/Genre";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -699,6 +699,10 @@ export interface EditBookRequest {
     title: string;
     pages: number;
     genreId: string | undefined;
+}
+
+export interface CreateGenreRequest {
+    name: string;
 }
 
 export class ApiException extends Error {

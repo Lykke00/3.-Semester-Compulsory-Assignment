@@ -17,26 +17,21 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
+import type { BookDto, CreateBookRequest, CreateGenreRequest, EditBookRequest, GenreDto } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect } from "react";
 
-interface ModalBookNewProps {
+interface ModalGenreNewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  book?: BookDto
+  genre?: GenreDto
 }
 
 const FormSchema = z.object({
-  title: z.string().min(2, "Title must be at least 2 characters"),
-  pages: z.coerce.number()
-    .min(1, "Must be at least 1 page")
-    .max(5000, "Cannot exceed 5000 pages"),
-  genre: z.string().min(1, "Please select a genre"),
+  name: z.string().min(2, "Title must be at least 2 characters"),
 });
 
-export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
-    const useBooksApi = useBooks();
+export default function ModalGenreNew({ open, onOpenChange, genre }: ModalGenreNewProps) {
     const useGenresApi = useGenres();
 
     useEffect(() => {
@@ -46,16 +41,15 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            title: book?.title ? book.title : '',
-            pages: book?.pages ? book.pages : 1,
-            genre: book?.genre ? book.genre.id : '',
+            name: genre?.name ? genre.name : '',
         },
     });
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-        const edit = book !== undefined;
+        const edit = genre !== undefined;
 
         if (edit) {
+          /*
             const editedBook: EditBookRequest = {
                 id: book.id,
                 title: data.title,
@@ -63,15 +57,13 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                 genreId: data.genre
             }
 
-            await useBooksApi.editBook(editedBook);
+            await useBooksApi.editBook(editedBook);*/
         } else {
-            const bookDto: CreateBookRequest = {
-                title: data.title,
-                pages: data.pages,  
-                genreId: 1
+            const genreDto: CreateGenreRequest = {
+                name: data.name
             };
 
-            await useBooksApi.createBook(bookDto);
+            await useGenresApi.createGenre(genreDto);
         }
 
         onOpenChange(false);
@@ -83,8 +75,8 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="text-gray-100">{book ? 'Edit book' : 'Add new book'}</DialogTitle>
-          <DialogDescription className="text-gray-200">{book ? 'Edit an existing book' : 'Create a new book'}</DialogDescription>
+          <DialogTitle className="text-gray-100">{genre ? 'Edit book' : 'Add new book'}</DialogTitle>
+          <DialogDescription className="text-gray-200">{genre ? 'Edit an existing book' : 'Create a new book'}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -92,54 +84,12 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
             {/* Title */}
             <FormField
               control={form.control}
-              name="title"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-200">Title</FormLabel>
+                  <FormLabel className="text-gray-200">Name</FormLabel>
                   <FormControl>
-                    <Input className="text-gray-200 border-zinc-800" {...field} placeholder="Book title" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Pages */}
-            <FormField
-              control={form.control}
-              name="pages"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-200">Pages</FormLabel>
-                  <FormControl>
-                    <Input className="text-gray-200 border-zinc-800" type="number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Genre */}
-            <FormField
-              control={form.control}
-              name="genre"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-200">Genre</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <SelectTrigger className="w-full border-zinc-800 text-gray-200">
-                        <SelectValue placeholder="Select a genre" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-zinc-900 border-zinc-800 text-gray-200">
-                        {useGenresApi.genres.map((genre, index) => (
-                            <SelectItem key={index} value={genre.id}>{genre.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Input className="text-gray-200 border-zinc-800" {...field} placeholder="Name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

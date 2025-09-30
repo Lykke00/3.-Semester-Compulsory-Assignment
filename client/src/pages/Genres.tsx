@@ -1,4 +1,5 @@
 import GenreCard from "@/components/card/GenreCard";
+import ModalGenreNew from "@/components/modal/ModalGenreNew";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -33,6 +34,7 @@ export default function GenresPage() {
                 ))}
             </div>
         </div>
+        <ModalGenreNew open={showModal} onOpenChange={setShowModal} />
         </>
 
     )

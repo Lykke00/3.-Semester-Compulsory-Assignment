@@ -43,9 +43,6 @@ export default function BookCard({ book }: BookCardProps) {
                     </DropdownMenu>
             </CardAction>
         </CardHeader>
-        <CardContent>
-            <p>Card Content</p>
-        </CardContent>
         <CardFooter className="text-xs text-gray-400">
             <p>{book.pages} pages</p>
         </CardFooter>
