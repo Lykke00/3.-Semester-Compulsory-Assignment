@@ -17,9 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { AuthorDto, BookDto, CreateBookRequest, CreateGenreRequest, EditBookRequest, EditGenreRequest, GenreDto } from "@/generated-client";
+import type { AuthorDto, BookDto, CreateAuthorRequest, CreateBookRequest, CreateGenreRequest, EditAuthorRequest, EditBookRequest, EditGenreRequest, GenreDto } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect } from "react";
+import useAuthors from "@/hooks/useAuthors";
 
 interface ModalAuthorNewProps {
   open: boolean;
@@ -32,10 +33,10 @@ const FormSchema = z.object({
 });
 
 export default function ModalAuthorNew({ open, onOpenChange, author }: ModalAuthorNewProps) {
-    const useGenresApi = useGenres();
+    const useAuthorApi = useAuthors();
 
     useEffect(() => {
-        useGenresApi.getAllGenres();
+        useAuthorApi.getAllAuthors();
     }, [])
 
     const form = useForm({
@@ -50,18 +51,18 @@ export default function ModalAuthorNew({ open, onOpenChange, author }: ModalAuth
 
         if (edit) {
           
-            const editGenre: EditGenreRequest = {
-                id: genre.id,
+            const editGenre: EditAuthorRequest = {
+                id: author.id,
                 name: data.name
             }
 
-            await useGenresApi.editGenre(editGenre);
+            await useAuthorApi.editAuthor(editGenre);
         } else {
-            const genreDto: CreateGenreRequest = {
+            const genreDto: CreateAuthorRequest = {
                 name: data.name
             };
 
-            await useGenresApi.createGenre(genreDto);
+            await useAuthorApi.createAuthor(genreDto);
         }
 
         onOpenChange(false);
@@ -73,8 +74,8 @@ export default function ModalAuthorNew({ open, onOpenChange, author }: ModalAuth
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="text-gray-100">{genre ? 'Edit book' : 'Add new book'}</DialogTitle>
-          <DialogDescription className="text-gray-200">{genre ? 'Edit an existing book' : 'Create a new book'}</DialogDescription>
+          <DialogTitle className="text-gray-100">{author ? 'Edit author' : 'Add new author'}</DialogTitle>
+          <DialogDescription className="text-gray-200">{author ? 'Edit an existing author' : 'Create a new author'}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

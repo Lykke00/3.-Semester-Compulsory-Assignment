@@ -86,7 +86,7 @@ export class AuthorClient {
         return Promise.resolve<AuthorDto>(null as any);
     }
 
-    update(id: string, author: AuthorDto): Promise<AuthorDto> {
+    update(id: string, author: EditAuthorRequest): Promise<AuthorDto> {
         let url_ = this.baseUrl + "/api/Author/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -162,7 +162,7 @@ export class AuthorClient {
         return Promise.resolve<boolean>(null as any);
     }
 
-    create(author: AuthorDto): Promise<AuthorDto> {
+    create(author: CreateAuthorRequest): Promise<AuthorDto> {
         let url_ = this.baseUrl + "/api/Author";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -672,6 +672,15 @@ export interface AuthorDto {
     id: string;
     name: string;
     createdAt: string;
+}
+
+export interface CreateAuthorRequest {
+    name: string;
+}
+
+export interface EditAuthorRequest {
+    id: string;
+    name: string;
 }
 
 export interface BookDto {

@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import useBooks from "@/hooks/useBooks";
 import useGenres from "@/hooks/useGenres";
 import ModalGenreNew from "../modal/ModalGenreNew";
+import ModalAuthorNew from "../modal/ModalAuthorNew";
 
 interface AuthorCardProps {
     author: AuthorDto
@@ -45,10 +46,10 @@ export default function AuthorCard({ author }: AuthorCardProps) {
             </CardAction>
         </CardHeader>
         <CardFooter className="text-xs text-gray-400">
-            <p>{new Date(genre.createdAt).toLocaleString()}</p>
+            <p>{new Date(author.createdAt).toLocaleString()}</p>
         </CardFooter>
         </Card>
-        <ModalGenreNew open={showEditModal} onOpenChange={setShowEditModal} genre={genre} />
+        <ModalAuthorNew open={showEditModal} onOpenChange={setShowEditModal} author={author} />
         </>
     )
 }

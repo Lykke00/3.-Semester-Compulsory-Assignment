@@ -73,8 +73,8 @@ export default function ModalGenreNew({ open, onOpenChange, genre }: ModalGenreN
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-zinc-800">
         <DialogHeader>
-          <DialogTitle className="text-gray-100">{genre ? 'Edit book' : 'Add new book'}</DialogTitle>
-          <DialogDescription className="text-gray-200">{genre ? 'Edit an existing book' : 'Create a new book'}</DialogDescription>
+          <DialogTitle className="text-gray-100">{genre ? 'Edit genre' : 'Add new genre'}</DialogTitle>
+          <DialogDescription className="text-gray-200">{genre ? 'Edit an existing genre' : 'Create a new genre'}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
