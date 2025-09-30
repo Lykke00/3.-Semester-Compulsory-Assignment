@@ -31,7 +31,7 @@ public class BookController(IBookService service) : ControllerBase
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<BookDto> Update(BookDto book)
+    public async Task<BookDto> Update(EditBookRequest book)
     {
         return await service.Update(book);
     }

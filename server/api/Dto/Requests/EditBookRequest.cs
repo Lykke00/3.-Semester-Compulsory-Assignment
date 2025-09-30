@@ -2,8 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.Dto.Requests;
 
-public class CreateBookRequest
+public class EditBookRequest
 {
+    public Guid Id { get; set; }
+
     [Required(ErrorMessage = "Title is required")]
     [Length(2, 160)]
     public required string Title { get; set; }

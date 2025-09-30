@@ -40,7 +40,7 @@ public class BookService(MyDbContext context) : IBookService
         return new BookDto(createdBook);
     }
 
-    public async Task<BookDto> Update(BookDto book)
+    public async Task<BookDto> Update(EditBookRequest book)
     {
         var updatedBook = await context.Books.FindAsync(book.Id);
         if (updatedBook == null)
