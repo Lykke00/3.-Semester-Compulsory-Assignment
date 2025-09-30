@@ -102,4 +102,34 @@ public class BookService(MyDbContext context) : IBookService
         await context.SaveChangesAsync();
         return new BookDto(book);
     }
+
+    public async Task<BookDto> AddAuthor(Guid bookId, Guid authorId)
+    {
+        var book = await context.Books.FindAsync(bookId);
+        if (book == null)
+            throw new KeyNotFoundException("Book not found");
+
+        var author = await context.Authors.FindAsync(authorId);
+        if (author == null)
+            throw new KeyNotFoundException("Author not found");
+
+        book.Authors.Add(author);
+        await context.SaveChangesAsync();
+        return new BookDto(book);
+    }
+
+    public async Task<BookDto> RemoveAuthor(Guid bookId, Guid authorId)
+    {
+        var book = await context.Books.FindAsync(bookId);
+        if (book == null)
+            throw new KeyNotFoundException("Book not found");
+        
+        var author = await context.Authors.FindAsync(authorId);
+        if (author == null)
+            throw new KeyNotFoundException("Author not found");
+        
+        book.Authors.Remove(author);
+        await context.SaveChangesAsync();
+        return new BookDto(book);
+    }
 }

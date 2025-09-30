@@ -56,4 +56,18 @@ public class BookController(IBookService service) : ControllerBase
     {
         return await service.RemoveGenre(id, genreId);
     }
+    
+    [HttpPost]
+    [Route("addAuthor")]
+    public async Task<BookDto> AddAuthor(Guid id, Guid authorId)
+    {
+        return await service.AddAuthor(id, authorId);
+    }
+
+    [HttpPost]
+    [Route("removeAuthor")]
+    public async Task<BookDto> RemoveAuthor(Guid id, Guid authorId)
+    {
+        return await service.RemoveAuthor(id, authorId);
+    }
 }

@@ -398,6 +398,86 @@
         }
       }
     },
+    "/api/Book/addAuthor": {
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_AddAuthor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "authorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Book/removeAuthor": {
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_RemoveAuthor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "authorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/genres": {
       "get": {
         "tags": [
@@ -576,6 +656,65 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "books": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookSimpleDto"
+            }
+          }
+        }
+      },
+      "BookSimpleDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "pages"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 2147483647.0,
+            "minimum": 1.0
+          },
+          "genre": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GenreDto"
+              }
+            ]
+          }
+        }
+      },
+      "GenreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -649,27 +788,6 @@
             "items": {
               "$ref": "#/components/schemas/AuthorDto"
             }
-          }
-        }
-      },
-      "GenreDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },

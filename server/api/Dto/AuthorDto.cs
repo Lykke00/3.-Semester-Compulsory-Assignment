@@ -12,12 +12,13 @@ public class AuthorDto
     public string Name { get; set; }
     public DateTime CreatedAt { get; set; }
     
-    public List<BookDto> Books { get; set; }
+    public List<BookSimpleDto> Books { get; set; }
 
     public AuthorDto(Author author)
     {
         Id = author.Id;
         Name = author.Name;
         CreatedAt = author.Createdat ?? DateTime.Now;
+        Books = author.Books.Select(b => new BookSimpleDto(b)).ToList();
     }
 }
