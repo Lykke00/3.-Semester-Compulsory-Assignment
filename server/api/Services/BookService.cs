@@ -11,6 +11,7 @@ public class BookService(MyDbContext context) : IBookService
     {
         return context.Books
             .Include(b => b.Genre)
+            .Include(a => a.Authors)
             .Select(book => new BookDto(book))
             .ToListAsync();
         

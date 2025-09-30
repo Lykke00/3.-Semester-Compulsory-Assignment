@@ -17,6 +17,8 @@ public class BookDto
     public int Pages { get; set; }
     public DateTime CreatedAt { get; set; }
     public GenreDto? Genre { get; set; }
+    
+    public List<AuthorDto>? Authors { get; set; }
 
     public BookDto(Book book)
     {
@@ -24,6 +26,7 @@ public class BookDto
         Title = book.Title;
         Pages = book.Pages;
         CreatedAt = book.Createdat ?? DateTime.Now;
+        Authors = book.Authors.Select(a => new AuthorDto(a)).ToList();
         
         if (book.Genre != null)
             Genre = new GenreDto(book.Genre);
