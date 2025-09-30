@@ -35,11 +35,11 @@ public class GenreService(MyDbContext context) : IGenreService
         return new GenreDto(createdGenre);
     }
 
-    public async Task<GenreDto> Update(GenreDto genre)
+    public async Task<GenreDto> Update(Guid id, EditGenreRequest genre)
     {
-        var updatedGenre = await context.Genres.FindAsync(genre.Id);
+        var updatedGenre = await context.Genres.FindAsync(id);
         if (updatedGenre == null)
-            throw new KeyNotFoundException("genre not found");
+            throw new KeyNotFoundException("Genre not found");
         
         updatedGenre.Name = genre.Name;
         await context.SaveChangesAsync();

@@ -11,7 +11,7 @@ public interface IGenreService
     
     Task<GenreDto> Create(CreateGenreRequest genre);
     
-    Task<GenreDto> Update(GenreDto genre);
+    Task<GenreDto> Update(Guid id, EditGenreRequest genre);
     
     Task<bool> Delete(string id);
 
