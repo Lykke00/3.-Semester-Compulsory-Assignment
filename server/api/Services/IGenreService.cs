@@ -13,6 +13,6 @@ public interface IGenreService
     
     Task<GenreDto> Update(Guid id, EditGenreRequest genre);
     
-    Task<bool> Delete(string id);
+    Task<bool> Delete(Guid id);
 
 }

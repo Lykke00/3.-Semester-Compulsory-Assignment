@@ -47,11 +47,11 @@ public class GenreService(MyDbContext context) : IGenreService
         return new GenreDto(updatedGenre);
     }
 
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         var genre = await context.Genres.FindAsync(id);
         if (genre == null)
-            throw new KeyNotFoundException("genre not found");
+            throw new KeyNotFoundException("Genre not found");
         
         context.Genres.Remove(genre);
         await context.SaveChangesAsync();

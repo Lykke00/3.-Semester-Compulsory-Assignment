@@ -470,7 +470,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GenreDto"
+                "$ref": "#/components/schemas/EditGenreRequest"
               }
             }
           },
@@ -694,6 +694,23 @@
           "name"
         ],
         "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "EditGenreRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
           "name": {
             "type": "string",
             "minLength": 1

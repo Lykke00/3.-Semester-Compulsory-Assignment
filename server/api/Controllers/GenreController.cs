@@ -31,14 +31,14 @@ public class GenreController(IGenreService service) : ControllerBase
 
     [HttpPatch]
     [Route("{id}")]
-    public async Task<GenreDto> Update(GenreDto genre)
+    public async Task<GenreDto> Update(EditGenreRequest genre)
     {
-        return await service.Update(genre);
+        return await service.Update(genre.Id, genre);
     }
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
         return await service.Delete(id);
     }
