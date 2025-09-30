@@ -698,7 +698,7 @@ export interface EditBookRequest {
     id: string;
     title: string;
     pages: number;
-    genreId: number | undefined;
+    genreId: string | undefined;
 }
 
 export class ApiException extends Error {

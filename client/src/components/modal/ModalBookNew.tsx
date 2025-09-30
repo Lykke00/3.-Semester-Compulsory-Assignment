@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
 import type { BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
+import useGenres from "@/hooks/useGenres";
+import { useEffect } from "react";
 
 interface ModalBookNewProps {
   open: boolean;
@@ -35,13 +37,18 @@ const FormSchema = z.object({
 
 export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
     const useBooksApi = useBooks();
+    const useGenresApi = useGenres();
+
+    useEffect(() => {
+        useGenresApi.getAllGenres();
+    }, [])
 
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             title: book?.title ? book.title : '',
             pages: book?.pages ? book.pages : 1,
-            genre: "",
+            genre: book?.genre ? book.genre.id : '',
         },
     });
 
@@ -53,19 +60,18 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                 id: book.id,
                 title: data.title,
                 pages: data.pages,
-                genreId: 1
+                genreId: data.genre
             }
 
             await useBooksApi.editBook(editedBook);
         } else {
-        const bookDto: CreateBookRequest = {
-            title: data.title,
-            pages: data.pages,  
-            genreId: 1
-        };
+            const bookDto: CreateBookRequest = {
+                title: data.title,
+                pages: data.pages,  
+                genreId: 1
+            };
 
-        await useBooksApi.createBook(bookDto);
-
+            await useBooksApi.createBook(bookDto);
         }
 
         onOpenChange(false);
@@ -129,10 +135,9 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                         <SelectValue placeholder="Select a genre" />
                       </SelectTrigger>
                       <SelectContent className="bg-zinc-900 border-zinc-800 text-gray-200">
-                        <SelectItem value="Fantasy">Fantasy</SelectItem>
-                        <SelectItem value="Sci-Fi">Sci-Fi</SelectItem>
-                        <SelectItem value="Romance">Romance</SelectItem>
-                        <SelectItem value="Mystery">Mystery</SelectItem>
+                        {useGenresApi.genres.map((genre, index) => (
+                            <SelectItem key={index} value={genre.id}>{genre.name}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </FormControl>
