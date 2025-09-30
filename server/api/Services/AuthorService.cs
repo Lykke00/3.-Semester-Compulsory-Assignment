@@ -9,7 +9,7 @@ public class AuthorService(MyDbContext context) : IAuthorService
 {
     public Task<List<AuthorDto>> All()
     {
-        return context.Authors.Select(author => new AuthorDto(author)).ToListAsync();
+        return context.Authors.Include(b => b.Books).Select(author => new AuthorDto(author)).ToListAsync();
     }
 
     public async Task<AuthorDto> Get(Guid id)

@@ -11,6 +11,8 @@ public class AuthorDto
     [Length(2, 75)]
     public string Name { get; set; }
     public DateTime CreatedAt { get; set; }
+    
+    public List<BookDto> Books { get; set; }
 
     public AuthorDto(Author author)
     {
