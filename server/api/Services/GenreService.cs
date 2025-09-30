@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using dataaccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,12 @@ public class GenreService(MyDbContext context) : IGenreService
         return new GenreDto(genre);
     }
 
-    public async Task<GenreDto> Create(GenreDto genre)
+    public async Task<GenreDto> Create(CreateGenreRequest genre)
     {
         var createdGenre = new Genre
         {
             Name = genre.Name,
-            Createdat = genre.CreatedAt
+            Createdat = DateTime.UtcNow
         };
         
         await context.Genres.AddAsync(createdGenre);

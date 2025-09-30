@@ -531,7 +531,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GenreDto"
+                "$ref": "#/components/schemas/CreateGenreRequest"
               }
             }
           },
@@ -684,6 +684,19 @@
             "type": "string",
             "format": "guid",
             "nullable": true
+          }
+        }
+      },
+      "CreateGenreRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }

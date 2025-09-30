@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 
 namespace api.Services;
 
@@ -8,7 +9,7 @@ public interface IGenreService
     
     Task<GenreDto> Get(string id);
     
-    Task<GenreDto> Create(GenreDto genre);
+    Task<GenreDto> Create(CreateGenreRequest genre);
     
     Task<GenreDto> Update(GenreDto genre);
     

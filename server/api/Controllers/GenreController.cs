@@ -1,4 +1,5 @@
 using api.Dto;
+using api.Dto.Requests;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ public class GenreController(IGenreService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<GenreDto> Create(GenreDto genre)
+    public async Task<GenreDto> Create(CreateGenreRequest genre)
     {
         return await service.Create(genre);
     }
