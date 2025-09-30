@@ -12,7 +12,6 @@ public interface IBookService
     Task<bool> Delete(Guid id);
     Task<BookDto> AddGenre(string bookId, string genreId);
     Task<BookDto> RemoveGenre(string bookId, string genreId);
-    Task<BookDto> AddAuthor(Guid bookId, Guid authorId);
-    Task<BookDto> RemoveAuthor(Guid bookId, Guid authorId);
+    Task<BookDto> UpdateAuthors(Guid bookId, List<Guid> authorsToDelete, List<Guid> authorsToAdd);
 
 }

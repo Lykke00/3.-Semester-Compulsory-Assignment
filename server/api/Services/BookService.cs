@@ -103,33 +103,40 @@ public class BookService(MyDbContext context) : IBookService
         return new BookDto(book);
     }
 
-    public async Task<BookDto> AddAuthor(Guid bookId, Guid authorId)
+    public async Task<BookDto> UpdateAuthors(Guid bookId, List<Guid> authorsToDelete, List<Guid> authorsToAdd)
     {
-        var book = await context.Books.FindAsync(bookId);
+        var book = await context.Books
+            .Include(b => b.Authors) // load the existing authors
+            .FirstOrDefaultAsync(b => b.Id == bookId);
+
         if (book == null)
             throw new KeyNotFoundException("Book not found");
 
-        var author = await context.Authors.FindAsync(authorId);
-        if (author == null)
-            throw new KeyNotFoundException("Author not found");
+        if (authorsToDelete != null && authorsToDelete.Any())
+        {
+            var authorsToRemove = book.Authors.Where(a => authorsToDelete.Contains(a.Id)).ToList();
+            foreach (var author in authorsToRemove)
+            {
+                book.Authors.Remove(author);
+            }
+        }
 
-        book.Authors.Add(author);
+        if (authorsToAdd != null && authorsToAdd.Any())
+        {
+            var existingAuthorIds = book.Authors.Select(a => a.Id).ToHashSet();
+            var authorsToAddEntities = await context.Authors
+                .Where(a => authorsToAdd.Contains(a.Id) && !existingAuthorIds.Contains(a.Id))
+                .ToListAsync();
+
+            foreach (var author in authorsToAddEntities)
+            {
+                book.Authors.Add(author);
+            }
+        }
+
         await context.SaveChangesAsync();
+
         return new BookDto(book);
     }
 
-    public async Task<BookDto> RemoveAuthor(Guid bookId, Guid authorId)
-    {
-        var book = await context.Books.FindAsync(bookId);
-        if (book == null)
-            throw new KeyNotFoundException("Book not found");
-        
-        var author = await context.Authors.FindAsync(authorId);
-        if (author == null)
-            throw new KeyNotFoundException("Author not found");
-        
-        book.Authors.Remove(author);
-        await context.SaveChangesAsync();
-        return new BookDto(book);
-    }
 }
