@@ -69,7 +69,18 @@ export default function useBooks() {
             customCatch(e);
             
         }
+    }
 
+    async function deleteBook(id: string) {
+        try {
+            const result = await bookApi.delete(id);
+            const filtered = books.filter(b => b.id !== id);
+            setBooks(filtered);
+            toast.success("Book deleted successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+        }
     }
 
 
@@ -77,6 +88,7 @@ export default function useBooks() {
         getAllBooks,
         createBook,
         editBook,
+        deleteBook,
         books
     }
 }
