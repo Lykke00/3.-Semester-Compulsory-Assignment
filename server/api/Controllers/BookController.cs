@@ -18,7 +18,7 @@ public class BookController(IBookService service) : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<BookDto> Get(string id)
+    public async Task<BookDto> Get(Guid id)
     {
         return await service.Get(id);
     }

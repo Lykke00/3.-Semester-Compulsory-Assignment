@@ -7,7 +7,7 @@ public interface IBookService
 {
     Task<List<BookDto>> All();
     Task<BookDto> Create(CreateBookRequest book);
-    Task<BookDto> Get(string id);
+    Task<BookDto> Get(Guid id);
     Task<BookDto> Update(EditBookRequest book);
     Task<bool> Delete(Guid id);
     Task<BookDto> AddGenre(string bookId, string genreId);

@@ -16,9 +16,13 @@ public class BookService(MyDbContext context) : IBookService
         
     }
     
-    public async Task<BookDto> Get(string id)
+    public async Task<BookDto> Get(Guid id)
     {
-        var book = await context.Books.FindAsync(id);
+        var book = await context.Books
+            .Include(b => b.Genre)
+            .Where(b => b.Id == id)
+            .FirstAsync();
+        
         if (book == null)
             throw new KeyNotFoundException("book not found");
         
@@ -48,10 +52,11 @@ public class BookService(MyDbContext context) : IBookService
         
         updatedBook.Title = book.Title;
         updatedBook.Pages = book.Pages;
+        updatedBook.Genreid = book.GenreId;
         
         await context.SaveChangesAsync();
         
-        return new BookDto(updatedBook);
+        return await Get(book.Id);
     }
 
     public async Task<bool> Delete(Guid id)

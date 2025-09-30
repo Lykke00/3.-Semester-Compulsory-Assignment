@@ -197,7 +197,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "guid"
             },
             "x-position": 1
           }
@@ -680,8 +681,8 @@
             "minimum": 1.0
           },
           "genreId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
+            "format": "guid",
             "nullable": true
           }
         }
