@@ -554,7 +554,7 @@ export class GenreClient {
         return Promise.resolve<GenreDto>(null as any);
     }
 
-    update(id: string, genre: GenreDto): Promise<GenreDto> {
+    update(id: string, genre: EditGenreRequest): Promise<GenreDto> {
         let url_ = this.baseUrl + "/api/Genre/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -702,6 +702,11 @@ export interface EditBookRequest {
 }
 
 export interface CreateGenreRequest {
+    name: string;
+}
+
+export interface EditGenreRequest {
+    id: string;
     name: string;
 }
 

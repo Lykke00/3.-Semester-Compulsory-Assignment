@@ -1,5 +1,5 @@
 import { AllBooksAtom, AllGenresAtom } from "@/atoms/atoms";
-import { BookClient, GenreClient, type CreateBookRequest, type CreateGenreRequest, type EditBookRequest, type GenreDto } from "@/generated-client";
+import { BookClient, GenreClient, type CreateBookRequest, type CreateGenreRequest, type EditBookRequest, type EditGenreRequest, type GenreDto } from "@/generated-client";
 import { finalUrl } from "@/utils/client";
 import customCatch from "@/utils/customCatch";
 import { useAtom } from "jotai";
@@ -34,9 +34,27 @@ export default function useGenres() {
         }
     }
 
+        async function editGenre(dto: EditGenreRequest) {
+        try {
+            const result = await genreApi.update(dto.id, dto)
+            const index = genres.findIndex(b => b.id === result.id);
+            if (index > -1) {
+                const duplicate = [...genres];
+                duplicate[index] = result;
+                setGenres(duplicate);
+            }
+            toast.success("Genre updated successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+        }
+    }
+
+
     return {
         getAllGenres,
         createGenre,
+        editGenre, 
         genres,
     }
 }

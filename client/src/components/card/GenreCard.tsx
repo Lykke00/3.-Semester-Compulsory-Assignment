@@ -6,6 +6,7 @@ import ModalBookNew from "../modal/ModalBookNew";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import useBooks from "@/hooks/useBooks";
 import useGenres from "@/hooks/useGenres";
+import ModalGenreNew from "../modal/ModalGenreNew";
 
 interface GenreCardProps {
     genre: GenreDto
@@ -47,6 +48,7 @@ export default function GenreCard({ genre }: GenreCardProps) {
             <p>{new Date(genre.createdAt).toLocaleString()}</p>
         </CardFooter>
         </Card>
+        <ModalGenreNew open={showEditModal} onOpenChange={setShowEditModal} genre={genre} />
         </>
     )
 }

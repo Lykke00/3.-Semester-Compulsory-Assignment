@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { BookDto, CreateBookRequest, CreateGenreRequest, EditBookRequest, GenreDto } from "@/generated-client";
+import type { BookDto, CreateBookRequest, CreateGenreRequest, EditBookRequest, EditGenreRequest, GenreDto } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect } from "react";
 
@@ -49,15 +49,13 @@ export default function ModalGenreNew({ open, onOpenChange, genre }: ModalGenreN
         const edit = genre !== undefined;
 
         if (edit) {
-          /*
-            const editedBook: EditBookRequest = {
-                id: book.id,
-                title: data.title,
-                pages: data.pages,
-                genreId: data.genre
+          
+            const editGenre: EditGenreRequest = {
+                id: genre.id,
+                name: data.name
             }
 
-            await useBooksApi.editBook(editedBook);*/
+            await useGenresApi.editGenre(editGenre);
         } else {
             const genreDto: CreateGenreRequest = {
                 name: data.name
