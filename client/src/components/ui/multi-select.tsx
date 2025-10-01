@@ -1019,7 +1019,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 						}}
 						align="start"
 						onEscapeKeyDown={() => setIsPopoverOpen(false)}>
-						<Command>
+						<Command className="bg-zinc-800">
 							{searchable && (
 								<CommandInput
 									placeholder="Search options..."
@@ -1037,7 +1037,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 							)}
 							<CommandList
 								className={cn(
-									"max-h-[40vh] overflow-y-auto multiselect-scrollbar",
+									"max-h-[40vh] overflow-y-auto multiselect-scrollbar bg-zinc-900",
 									screenSize === "mobile" && "max-h-[50vh]",
 									"overscroll-behavior-y-contain"
 								)}>

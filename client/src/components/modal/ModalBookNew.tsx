@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { AuthorDto, BookDto, CreateBookRequest, EditBookRequest } from "@/generated-client";
+import type { AuthorDto, BookDto, CreateBookRequest, EditAuthorRequest, EditBookRequest, UpdateBookAuthorsRequest } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect, useState } from "react";
 import { MultiSelect } from "../ui/multi-select";
@@ -35,18 +35,13 @@ const FormSchema = z.object({
     .min(1, "Must be at least 1 page")
     .max(5000, "Cannot exceed 5000 pages"),
   genre: z.string().min(1, "Please select a genre"),
+  authors: z.array(z.string()).min(1, "Please select at least one author"),
 });
 
-const options = [
-	{ value: "next", label: "Next.js" },
-	{ value: "react", label: "React" },
-	{ value: "typescript", label: "TypeScript" },
-];
-
-
 export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewProps) {
-    const [selected, setSelected] = useState<string[]>([]);
-    const [allAuthors, setAllAuthors] = useState<AuthorDto[]>([]);
+    const [allAuthors, setAllAuthors] = useState<{ value: string; label: string }[]>([]);
+    const [loadingAuthors, setLoadingAuthors] = useState(true);
+    const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
 
     const useBooksApi = useBooks();
     const useGenresApi = useGenres();
@@ -56,19 +51,27 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
         useGenresApi.getAllGenres();
     }, [])
 
+
     useEffect(() => {
-    const fetchAuthors = async () => {
-        await useAuthorsApi.getAllAuthors();
-        setAllAuthors(useAuthorsApi.authors);
+        const fetchAuthors = async () => {
+            setLoadingAuthors(true);
+            const authors = await useAuthorsApi.getAllAuthors();
 
-        if (book?.authors) {
-            setSelected(book.authors.map(a => a.id));
-        }
-    };
+            const options = authors?.map(a => ({ value: a.id, label: a.name })) ?? [];
+            setAllAuthors(options);
 
-    if (open) fetchAuthors();
-}, [book]);
+            // prefill selected authors if editing
+            if (book?.authors) {
+            const ids = book.authors.map(a => a.id);
+            setSelectedAuthors(ids);
+            form.setValue("authors", ids);
+            }
 
+            setLoadingAuthors(false);
+        };
+
+        if (open) fetchAuthors();
+    }, [open, book]);
 
     const form = useForm({
         resolver: zodResolver(FormSchema),
@@ -76,6 +79,7 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
             title: book?.title ? book.title : '',
             pages: book?.pages ? book.pages : 1,
             genre: book?.genre ? book.genre.id : '',
+            authors: book?.authors?.map(a => a.id) ?? []
         },
     });
 
@@ -90,12 +94,19 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                 genreId: data.genre
             }
 
+            const editedAuthors: UpdateBookAuthorsRequest = {
+                bookId: book.id,
+                authors: data.authors
+            }
+
             await useBooksApi.editBook(editedBook);
+            await useBooksApi.editBookAuthors(editedAuthors)
+
         } else {
             const bookDto: CreateBookRequest = {
                 title: data.title,
                 pages: data.pages,  
-                genreId: 1
+                genreId: data.genre
             };
 
             await useBooksApi.createBook(bookDto);
@@ -176,18 +187,22 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
             {/* Authors */}
             <FormField
               control={form.control}
-              name="genre"
+              name="authors"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-gray-200">Authors</FormLabel>
                   <FormControl>
                     <MultiSelect
-                        options={allAuthors.map(a => ({ value: a.id, label: a.name }))}
-                        onValueChange={setSelected}
+                        options={allAuthors}
+                        value={field.value ?? []}
+                        onValueChange={field.onChange}
+                        defaultValue={selectedAuthors}
+                        placeholder={loadingAuthors ? "Loading..." : "Select authors"}
+                        disabled={loadingAuthors}
                         responsive={true}
                         minWidth="200px"
                         maxWidth="400px"
-                        placeholder="Search..."
+                        hideSelectAll
                     />
 
                   </FormControl>

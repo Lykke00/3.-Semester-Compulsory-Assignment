@@ -15,6 +15,7 @@ export default function useAuthors() {
         try {
             const result = await authorApi.all();
             setAuthors(result);
+            return result;
         }
         catch (e: any) {
             customCatch(e);

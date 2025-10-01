@@ -1,5 +1,5 @@
 import { AllBooksAtom } from "@/atoms/atoms";
-import { BookClient, type CreateBookRequest, type EditBookRequest, type GenreDto } from "@/generated-client";
+import { BookClient, type CreateBookRequest, type EditBookRequest, type GenreDto, type UpdateBookAuthorsRequest } from "@/generated-client";
 import { finalUrl } from "@/utils/client";
 import customCatch from "@/utils/customCatch";
 import { useAtom } from "jotai";
@@ -71,6 +71,25 @@ export default function useBooks() {
         }
     }
 
+    async function editBookAuthors(dto: UpdateBookAuthorsRequest) {
+        try {
+            const result = await bookApi.updateAuthors(dto)
+            const index = books.findIndex(b => b.id === result.id);
+            if (index > -1) {
+                const duplicate = [...books];
+                duplicate[index] = result;
+                setBooks(duplicate);
+            }
+
+            toast.success("Authors updated successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+            
+        }
+    }
+
+
     async function deleteBook(id: string) {
         try {
             const result = await bookApi.delete(id);
@@ -89,6 +108,7 @@ export default function useBooks() {
         createBook,
         editBook,
         deleteBook,
+        editBookAuthors,
         books
     }
 }
