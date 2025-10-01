@@ -747,6 +747,7 @@ export interface CreateBookRequest {
     title: string;
     pages: number;
     genreId: string | undefined;
+    authorIds: string[] | undefined;
 }
 
 export interface EditBookRequest {

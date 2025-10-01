@@ -106,7 +106,8 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
             const bookDto: CreateBookRequest = {
                 title: data.title,
                 pages: data.pages,  
-                genreId: data.genre
+                genreId: data.genre,
+                authorIds: data.authors
             };
 
             await useBooksApi.createBook(bookDto);
