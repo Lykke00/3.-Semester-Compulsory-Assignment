@@ -748,7 +748,9 @@
         "additionalProperties": false,
         "required": [
           "title",
-          "pages"
+          "pages",
+          "genreId",
+          "authorIds"
         ],
         "properties": {
           "title": {
@@ -764,11 +766,11 @@
           "genreId": {
             "type": "string",
             "format": "guid",
-            "nullable": true
+            "minLength": 1
           },
           "authorIds": {
             "type": "array",
-            "nullable": true,
+            "minItems": 1,
             "items": {
               "type": "string",
               "format": "guid"

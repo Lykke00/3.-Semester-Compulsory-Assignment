@@ -27,6 +27,7 @@ public class Program
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IGenreService, GenreService>();
+        services.AddScoped<ISeeder, SeederWithRelations>();
 
     }
 

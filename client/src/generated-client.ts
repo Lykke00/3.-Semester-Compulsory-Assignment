@@ -746,8 +746,8 @@ export interface BookDto {
 export interface CreateBookRequest {
     title: string;
     pages: number;
-    genreId: string | undefined;
-    authorIds: string[] | undefined;
+    genreId: string;
+    authorIds: string[];
 }
 
 export interface EditBookRequest {
