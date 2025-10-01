@@ -6,20 +6,30 @@ namespace api;
 
 public class Program
 {
-    public static void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<AppOptions>(provider =>
         {
-            var configuration = provider.GetRequiredService<IConfiguration>();
+            var config = provider.GetRequiredService<IConfiguration>();
             var appOptions = new AppOptions();
             configuration.GetSection(nameof(AppOptions)).Bind(appOptions);
+        
+            // Fallback til DATABASE_URL hvis DbConnectionString er tom
+            if (string.IsNullOrEmpty(appOptions.DbConnectionString))
+            {
+                appOptions.DbConnectionString = config["DATABASE_URL"];
+            }
+        
             return appOptions;
         });
         
         services.AddDbContext<MyDbContext>((services, options) =>
         {
-            options.UseNpgsql(services.GetRequiredService<AppOptions>().DbConnectionString);
+            var connStr = services.GetRequiredService<AppOptions>().DbConnectionString;
+            Console.WriteLine($"Using connection string: {connStr?.Substring(0, Math.Min(30, connStr?.Length ?? 0))}..."); // Debug
+            options.UseNpgsql(connStr);
         });
+
         services.AddControllers();
         services.AddOpenApiDocument();
         services.AddCors(options =>
@@ -42,7 +52,7 @@ public class Program
     public static void Main()
     {
         var builder = WebApplication.CreateBuilder();
-        ConfigureServices(builder.Services);
+        ConfigureServices(builder.Services, builder.Configuration);
         var app = builder.Build();
         
         
