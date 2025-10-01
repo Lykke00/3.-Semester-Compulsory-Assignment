@@ -1,10 +1,8 @@
-import type { BookDto, GenreDto } from "@/generated-client";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import type { GenreDto } from "@/generated-client";
+import { Card, CardAction, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { EllipsisVertical } from "lucide-react";
-import { useEffect, useState } from "react";
-import ModalBookNew from "../modal/ModalBookNew";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import useBooks from "@/hooks/useBooks";
+import { useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import useGenres from "@/hooks/useGenres";
 import ModalGenreNew from "../modal/ModalGenreNew";
 

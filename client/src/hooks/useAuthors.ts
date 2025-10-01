@@ -1,5 +1,5 @@
-import { AllAuthorsAtom, AllBooksAtom, AllGenresAtom } from "@/atoms/atoms";
-import { AuthorClient, BookClient, GenreClient, type CreateAuthorRequest, type CreateBookRequest, type CreateGenreRequest, type EditAuthorRequest, type EditBookRequest, type EditGenreRequest, type GenreDto } from "@/generated-client";
+import { AllAuthorsAtom } from "@/atoms/atoms";
+import { AuthorClient, type CreateAuthorRequest, type EditAuthorRequest } from "@/generated-client";
 import { finalUrl } from "@/utils/client";
 import customCatch from "@/utils/customCatch";
 import { useAtom } from "jotai";

@@ -15,10 +15,7 @@ import {
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import useBooks from "@/hooks/useBooks";
-import type { AuthorDto, BookDto, CreateAuthorRequest, CreateBookRequest, CreateGenreRequest, EditAuthorRequest, EditBookRequest, EditGenreRequest, GenreDto } from "@/generated-client";
-import useGenres from "@/hooks/useGenres";
+import type { AuthorDto, CreateAuthorRequest, EditAuthorRequest } from "@/generated-client";
 import { useEffect } from "react";
 import useAuthors from "@/hooks/useAuthors";
 

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useBooks from "@/hooks/useBooks";
-import type { AuthorDto, BookDto, CreateBookRequest, EditAuthorRequest, EditBookRequest, UpdateBookAuthorsRequest } from "@/generated-client";
+import type { BookDto, CreateBookRequest, EditBookRequest, UpdateBookAuthorsRequest } from "@/generated-client";
 import useGenres from "@/hooks/useGenres";
 import { useEffect, useState } from "react";
 import { MultiSelect } from "../ui/multi-select";

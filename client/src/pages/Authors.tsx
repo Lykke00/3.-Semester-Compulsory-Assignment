@@ -1,7 +1,6 @@
 import AuthorCard from "@/components/card/AuthorCard";
 import ModalAuthorNew from "@/components/modal/ModalAuthorNew";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import useAuthors from "@/hooks/useAuthors";
 import { PlusIcon } from "lucide-react";
