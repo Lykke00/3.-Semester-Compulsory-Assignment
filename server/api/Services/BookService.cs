@@ -36,6 +36,7 @@ public class BookService(MyDbContext context) : IBookService
         {
             Title = book.Title,
             Pages = book.Pages,
+            Genreid = book.GenreId,
             Createdat = DateTime.UtcNow
         };
         
@@ -103,35 +104,23 @@ public class BookService(MyDbContext context) : IBookService
         return new BookDto(book);
     }
 
-    public async Task<BookDto> UpdateAuthors(Guid bookId, List<Guid> authorsToDelete, List<Guid> authorsToAdd)
+    public async Task<BookDto> UpdateAuthors(UpdateBookAuthorsRequest request)
     {
         var book = await context.Books
-            .Include(b => b.Authors) // load the existing authors
-            .FirstOrDefaultAsync(b => b.Id == bookId);
+            .Include(b => b.Authors)
+            .FirstOrDefaultAsync(b => b.Id == request.BookId);
 
         if (book == null)
             throw new KeyNotFoundException("Book not found");
 
-        if (authorsToDelete != null && authorsToDelete.Any())
-        {
-            var authorsToRemove = book.Authors.Where(a => authorsToDelete.Contains(a.Id)).ToList();
-            foreach (var author in authorsToRemove)
-            {
-                book.Authors.Remove(author);
-            }
-        }
+        var newAuthors = await context.Authors
+            .Where(a => request.Authors.Contains(a.Id))
+            .ToListAsync();
 
-        if (authorsToAdd != null && authorsToAdd.Any())
+        book.Authors.Clear();
+        foreach (var author in newAuthors)
         {
-            var existingAuthorIds = book.Authors.Select(a => a.Id).ToHashSet();
-            var authorsToAddEntities = await context.Authors
-                .Where(a => authorsToAdd.Contains(a.Id) && !existingAuthorIds.Contains(a.Id))
-                .ToListAsync();
-
-            foreach (var author in authorsToAddEntities)
-            {
-                book.Authors.Add(author);
-            }
+            book.Authors.Add(author);
         }
 
         await context.SaveChangesAsync();

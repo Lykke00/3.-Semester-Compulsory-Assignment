@@ -58,9 +58,9 @@ public class BookController(IBookService service) : ControllerBase
     }
     
     [HttpPost]
-    [Route("updatedAuthors")]
-    public async Task<BookDto> AddAuthor(Guid id, List<Guid> authorsToDelete, List<Guid> authorsToAdd)
+    [Route("updateAuthors")]
+    public async Task<BookDto> UpdateAuthors([FromBody] UpdateBookAuthorsRequest request)
     {
-        return await service.UpdateAuthors(id, authorsToDelete, authorsToAdd);
+        return await service.UpdateAuthors(request);
     }
 }

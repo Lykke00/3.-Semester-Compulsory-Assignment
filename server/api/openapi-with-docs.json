@@ -398,72 +398,24 @@
         }
       }
     },
-    "/api/Book/addAuthor": {
+    "/api/Book/updateAuthors": {
       "post": {
         "tags": [
           "Book"
         ],
-        "operationId": "Book_AddAuthor",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "authorId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BookDto"
-                }
+        "operationId": "Book_UpdateAuthors",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookAuthorsRequest"
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Book/removeAuthor": {
-      "post": {
-        "tags": [
-          "Book"
-        ],
-        "operationId": "Book_RemoveAuthor",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
           },
-          {
-            "name": "authorId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 2
-          }
-        ],
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
             "description": "",
@@ -810,8 +762,8 @@
             "minimum": 1.0
           },
           "genreId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
+            "format": "guid",
             "nullable": true
           }
         }
@@ -842,6 +794,23 @@
             "type": "string",
             "format": "guid",
             "nullable": true
+          }
+        }
+      },
+      "UpdateBookAuthorsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           }
         }
       },
