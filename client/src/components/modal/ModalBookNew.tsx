@@ -151,7 +151,7 @@ export default function ModalBookNew({ open, onOpenChange, book }: ModalBookNewP
                 <FormItem>
                   <FormLabel className="text-gray-200">Pages</FormLabel>
                   <FormControl>
-                    <Input className="text-gray-200 border-zinc-800" type="number" {...field} />
+                    <Input className="text-gray-200 border-zinc-800" type="number" {...field} value={field.value as number}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

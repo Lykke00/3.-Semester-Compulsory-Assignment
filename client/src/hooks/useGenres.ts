@@ -1,4 +1,4 @@
-import { AllBooksAtom, AllGenresAtom } from "@/atoms/atoms";
+import { AllGenresAtom } from "@/atoms/atoms";
 import { GenreClient, type CreateGenreRequest, type EditGenreRequest } from "@/generated-client";
 import { finalUrl } from "@/utils/client";
 import customCatch from "@/utils/customCatch";
