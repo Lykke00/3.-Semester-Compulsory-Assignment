@@ -39,11 +39,24 @@ public class BookService(MyDbContext context) : IBookService
             Genreid = book.GenreId,
             Createdat = DateTime.UtcNow
         };
+
+        if (book.AuthorIds != null)
+        {
+            var newAuthors = await context.Authors
+                .Where(a => book.AuthorIds.Contains(a.Id))
+                .ToListAsync();
+
+            createdBook.Authors.Clear();
+            foreach (var author in newAuthors)
+            {
+                createdBook.Authors.Add(author);
+            }
+        }
         
         await context.Books.AddAsync(createdBook);
         await context.SaveChangesAsync();
         
-        return new BookDto(createdBook);
+        return await Get(createdBook.Id);
     }
 
     public async Task<BookDto> Update(EditBookRequest book)

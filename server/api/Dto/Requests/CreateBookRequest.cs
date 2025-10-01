@@ -12,4 +12,6 @@ public class CreateBookRequest
     [Range(1, int.MaxValue, ErrorMessage = "Pages must be a positive number")]
     public int Pages { get; set; }
     public Guid? GenreId { get; set; } 
+    
+    public List<Guid>? AuthorIds { get; set; } = new();
 }

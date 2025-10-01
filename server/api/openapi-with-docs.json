@@ -765,6 +765,14 @@
             "type": "string",
             "format": "guid",
             "nullable": true
+          },
+          "authorIds": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           }
         }
       },
