@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import HomePage from './pages/Home'
 import BooksPage from './pages/Books'
 import AuthorsPage from './pages/Authors'
 import GenresPage from './pages/Genres'
@@ -11,8 +10,7 @@ function App() {
       path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <HomePage /> },
-        { path: "books", element: <BooksPage /> },
+        { index: true, element: <BooksPage /> },
         { path: "authors", element: <AuthorsPage /> },
         { path: "genres", element: <GenresPage /> },
       ],

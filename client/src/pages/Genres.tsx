@@ -19,10 +19,7 @@ export default function GenresPage() {
         <>
         <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-                <Input 
-                    className="w-auto bg-zinc-900 border-zinc-800 text-gray-200"
-                    placeholder="Search..."
-                    />
+                <div/>
                 <Button className="cursor-pointer" size='icon' onClick={() => setShowModal(true)}>
                     <PlusIcon />
                 </Button>
