@@ -3,8 +3,8 @@ import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import useGenres from "@/hooks/useGenres";
 import ModalAuthorNew from "../modal/ModalAuthorNew";
+import useAuthors from "@/hooks/useAuthors";
 
 interface AuthorCardProps {
     author: AuthorDto
@@ -12,7 +12,7 @@ interface AuthorCardProps {
 
 export default function AuthorCard({ author }: AuthorCardProps) {
     const [showEditModal, setShowEditModal] = useState(false);
-    const useGenresApi = useGenres();
+    const useAuthorApi = useAuthors();
 
     return (
         <>
@@ -32,7 +32,7 @@ export default function AuthorCard({ author }: AuthorCardProps) {
                                     Update
                                     <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => useGenresApi.deleteGenre(author.id)}>
+                                <DropdownMenuItem onClick={() => useAuthorApi.deleteAuthor(author.id)}>
                                     Delete
                                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                                 </DropdownMenuItem>

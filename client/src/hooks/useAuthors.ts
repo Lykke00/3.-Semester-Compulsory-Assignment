@@ -51,9 +51,22 @@ export default function useAuthors() {
         }
     }
 
+    async function deleteAuthor(id: string) {
+        try {
+            const result = await authorApi.delete(id);
+            const filtered = authors.filter(b => b.id !== id);
+            setAuthors(filtered);
+            toast.success("Author deleted successfully");
+            return result;
+        } catch (e: any) {
+            customCatch(e);
+        }
+    }
+
     return {
         authors,
         createAuthor,
+        deleteAuthor,
         editAuthor,
         getAllAuthors
     }
